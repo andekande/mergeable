@@ -28,6 +28,8 @@ test('check that comment created when afterValidate is called with proper parame
   }
 
   await comment.afterValidate(context, settings, '', result)
+  await Helper.flushPromises()
+
   expect(context.octokit.issues.createComment.mock.calls.length).toBe(1)
   expect(context.octokit.issues.createComment.mock.calls[0][0].body).toBe('Your run has returned the following status: pass')
 })
@@ -44,6 +46,7 @@ test('that comment is created three times when result contain three issues found
     }
   }]
   await comment.afterValidate(context, settings, '', schedulerResult)
+  await Helper.flushPromises()
   expect(context.octokit.issues.createComment.mock.calls.length).toBe(3)
 })
 
@@ -73,6 +76,7 @@ test('check that old comments from Mergeable are deleted if they exists', async 
   }
 
   await comment.afterValidate(context, settings, '', result)
+  await Helper.flushPromises()
   expect(context.octokit.issues.deleteComment.mock.calls.length).toBe(1)
   expect(context.octokit.issues.deleteComment.mock.calls[0][0].comment_id).toBe('2')
 })
@@ -103,6 +107,7 @@ test('check that old comments checks toLowerCase of the Bot name', async () => {
   }
 
   await comment.afterValidate(context, settings, '', result)
+  await Helper.flushPromises()
   expect(context.octokit.issues.deleteComment.mock.calls.length).toBe(1)
   expect(context.octokit.issues.deleteComment.mock.calls[0][0].comment_id).toBe('2')
 })
@@ -233,11 +238,12 @@ test('error handling includes removing old error comments and creating new error
   }
 
   await comment.afterValidate(context, settings, '', result)
+  await Helper.flushPromises()
   expect(context.octokit.issues.createComment.mock.calls[0][0].body).toBe('creator , do something!')
 })
 
-const createMockContext = (listComments, event = undefined) => {
-  const context = Helper.mockContext({ listComments, event })
+const createMockContext = (comments, event = undefined) => {
+  const context = Helper.mockContext({ comments, event })
 
   context.octokit.issues.createComment = jest.fn()
   context.octokit.issues.deleteComment = jest.fn()

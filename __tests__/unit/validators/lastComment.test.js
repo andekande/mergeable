@@ -225,30 +225,24 @@ test('complex Logic test', async () => {
       users: ['e1'],
       bots: false
     },
-    or: [
-      {
-        and: [
-          {
-            must_include: {
-              regex: 'release note: yes',
-              message: 'Please include release note: yes'
-            }
-          },
-          {
-            must_include: {
-              regex: 'lang\\/core|lang\\/c\\+\\+|lang\\/c#',
-              message: 'Please include a language comment'
-            }
-          }
-        ]
-      },
-      {
+    or: [{
+      and: [{
         must_include: {
-          regex: 'release note: no',
-          message: 'Please include release note: no'
+          regex: 'release note: yes',
+          message: 'Please include release note: yes'
         }
+      }, {
+        must_include: {
+          regex: 'lang\\/core|lang\\/c\\+\\+|lang\\/c#',
+          message: 'Please include a language comment'
+        }
+      }]
+    }, {
+      must_include: {
+        regex: 'release note: no',
+        message: 'Please include release note: no'
       }
-    ]
+    }]
   }
 
   let validation = await lastComment.processValidate(createMockContext(['experimental', 'xyz', 'release note: no'], ['u1', 'u1', 'u1']), settings)
@@ -280,7 +274,7 @@ function createMockContext (comments, commenters, eventname = 'pull_request') {
   return Helper.mockContext({
     eventName: eventname,
     issueComment: constructComment(comments, commenters),
-    listComments: Array.isArray(comments)
+    comments: Array.isArray(comments)
       ? comments.map((comment, idx) => constructComment(comment, commenters ? commenters[idx] : undefined))
       : [constructComment(comments, commenters)]
   })
