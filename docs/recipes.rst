@@ -148,6 +148,36 @@ Add a comment on a pull request when it is created
                 Thanks for creating a pull request! A maintainer will review your changes shortly. Please don't be discouraged if it takes a while.
 
 
+React on a comment to merge pull requests
+"""""""""""""""""""""""""""""""""""""""""
+When a human creates a new comment or edits existing comment, ``mergeable`` finds a special command in it, to then execute a merge.
+The comment writer must be different from the PR author.
+
+::
+
+    version: 2
+    mergeable:
+      - when: issue_comment.*
+        name: "Merge pull requests when requested via comment"
+        filter:
+          - do: payload
+            sender:
+              must_exclude:
+                regex: '[bot]$'
+        validate:
+          - do: lastComment
+            must_include:
+              regex: 'merge$'
+              message: 'Comment "merge" detected, going to merge the PR.'
+            must_exclude:
+              regex: '^\[ \]'
+              message: 'Comment contains unchecked items, can't merge yet.'
+            exclude:
+              users: ['@author']
+        pass:
+          - do: merge
+            merge_method: "squash"
+
 Auto-merge pull requests once all checks pass
 """""""""""""""""""""""""""""""""""""""""""""
 This recipe relies on the fact that the main branch has been protected and only allows merges

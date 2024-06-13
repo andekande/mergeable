@@ -1,5 +1,6 @@
 CHANGELOG
 =====================================
+| June 13, 2024: feat: Add user and bot exclusion option to `lastComment` validator `#756 <https://github.com/mergeability/mergeable/pull/756>`_
 | June 10, 2024: fix: Docker image not working `#753 <https://github.com/mergeability/mergeable/pull/753>`_
 | June 10, 2024: feat: publish multi arch docker image to dockerhub `#751 <https://github.com/mergeability/mergeable/pull/751>`_
 | April 29, 2024: fix: Always allow assigning author  `#744 <https://github.com/mergeability/mergeable/pull/744>`_

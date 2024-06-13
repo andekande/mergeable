@@ -65,7 +65,8 @@ module.exports = {
             login: 'creator'
           },
           number: (options.number) ? options.number : 1
-        }
+        },
+        comment: options.issueComment
       },
       log: {
         child: (s) => {
