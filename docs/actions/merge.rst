@@ -1,6 +1,8 @@
 Merge
 ^^^^^^^^
 
+You can merge a pull request and specify the merge method used.
+
 ::
 
     - do: merge

@@ -15,6 +15,28 @@ const result = {
   }]
 }
 
+test.each([
+  undefined,
+  'pull_request',
+  'issues',
+  'issue_comment',
+  'schedule'
+])('check that comment is called for %s events', async (eventName) => {
+  const comment = new Comment()
+  const context = createMockContext([], eventName)
+  const schedulerResult = { ...result }
+  schedulerResult.validationSuites = [{
+    schedule: {
+      issues: [{ number: 1, user: { login: 'scheduler' } }],
+      pulls: []
+    }
+  }]
+
+  await comment.afterValidate(context, settings, '', schedulerResult)
+  await Helper.flushPromises()
+  expect(context.octokit.issues.createComment.mock.calls.length).toBe(1)
+})
+
 test('check that comment created when afterValidate is called with proper parameter', async () => {
   const comment = new Comment()
   const context = createMockContext()
@@ -36,8 +58,7 @@ test('check that comment created when afterValidate is called with proper parame
 
 test('that comment is created three times when result contain three issues found to be acted on', async () => {
   const comment = new Comment()
-  const context = createMockContext([], 'repository')
-  context.eventName = 'schedule'
+  const context = createMockContext([], 'schedule', 'repository')
   const schedulerResult = { ...result }
   schedulerResult.validationSuites = [{
     schedule: {
@@ -119,7 +140,8 @@ test('error handling includes removing old error comments and creating new error
     id: '1',
     user: {
       login: 'test-1'
-    }
+    },
+    body: ''
   },
   {
     id: '2',
@@ -153,7 +175,8 @@ test('remove error comments only remove comments that includes "error" ', async 
     id: '1',
     user: {
       login: 'test-1'
-    }
+    },
+    body: ''
   },
   {
     id: '2',
@@ -190,13 +213,15 @@ test('check that leave_old_comment option works', async () => {
     id: '1',
     user: {
       login: 'test-1'
-    }
+    },
+    body: ''
   },
   {
     id: '2',
     user: {
       login: 'Mergeable[bot]'
-    }
+    },
+    body: ''
   }]
   const context = createMockContext(listComments)
 
@@ -242,8 +267,8 @@ test('error handling includes removing old error comments and creating new error
   expect(context.octokit.issues.createComment.mock.calls[0][0].body).toBe('creator , do something!')
 })
 
-const createMockContext = (comments, event = undefined) => {
-  const context = Helper.mockContext({ comments, event })
+const createMockContext = (comments, eventName = undefined, event = undefined) => {
+  const context = Helper.mockContext({ comments, eventName, event })
 
   context.octokit.issues.createComment = jest.fn()
   context.octokit.issues.deleteComment = jest.fn()
