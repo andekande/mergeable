@@ -1,7 +1,7 @@
 MustInclude
 ^^^^^^^^^^^
 
-``must_include`` can be used to validate that input matches the given message or regular expression.
+``must_include`` can be used to validate that input matches the given regular expression.
 
 ::
 

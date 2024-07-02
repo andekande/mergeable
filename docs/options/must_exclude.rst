@@ -1,7 +1,7 @@
 MustExclude
 ^^^^^^^^^^^
 
-``must_exclude`` can be used to validate that input does not match the given message or regular expression.
+``must_exclude`` can be used to validate that input does not match the given regular expression.
 
 ::
 
