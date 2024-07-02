@@ -25,7 +25,7 @@ Simple example:
       must_include:
         regex: '^(feature|hotfix)\/.+$'
         message: |
-            Your pull request doesn't adhere to the branch naming convention described <a href="some link">there</a>!k
+            Your pull request doesn't adhere to the branch naming convention described <a href="some link">there</a>!
 
 
 Supported Events:
