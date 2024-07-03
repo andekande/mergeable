@@ -23,7 +23,6 @@ You can also use an array of regex matchers. If any of them match, the validatio
           - "^test"
         message: |
             Your pull request doesn't adhere to the branch naming convention described <a href="some link">there</a>!
-        all: false # default, set to true when all matches are required
 
 .. list-table:: Supported Params
    :widths: 25 50 25 25
@@ -50,9 +49,9 @@ You can also use an array of regex matchers. If any of them match, the validatio
      - No
      - 
    * - all
-     - When regex is an array of regular expressions, require all expressions to not match
+     - When input is an array of strings, require any expression to not match for all strings
      - No
-     - 
+     - false
 
 Supported Validators:
 ::
