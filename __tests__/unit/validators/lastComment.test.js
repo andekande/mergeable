@@ -216,7 +216,7 @@ test('mergeable is false if must_exclude is one of the lastComment', async () =>
   expect(validation.status).toBe('pass')
 })
 
-test('mergeable is true if single comment got edited, disregarding whether its the last comment', async () => {
+test('mergeable is true if single comment got edited and it is the last comment, false otherwise', async () => {
   const lastComment = new LastComment()
 
   const settings = {
@@ -235,7 +235,7 @@ test('mergeable is true if single comment got edited, disregarding whether its t
 
   validation = await lastComment.processValidate(createMockContext(['abc', 'xyz', '456'], undefined, 'issue_comment'), settings)
   // must_include is applied although its not the last comment, when triggered by an edit operation
-  expect(validation.status).toBe('pass')
+  expect(validation.status).toBe('fail')
 })
 
 test('complex Logic test', async () => {
