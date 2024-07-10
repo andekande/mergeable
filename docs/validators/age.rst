@@ -14,4 +14,4 @@ Age
 Supported Events:
 ::
 
-    'pull_request.*', 'pull_request_review.*',
+    'pull_request.*', 'pull_request_review.*', 'issue_comment.*'

@@ -51,4 +51,4 @@ you can also nest ``and`` and ``or`` options
 Supported Events:
 ::
 
-    'pull_request.*', 'pull_request_review.*'
+    'pull_request.*', 'pull_request_review.*', 'issues.*', 'issue_comment.*'
