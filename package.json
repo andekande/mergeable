@@ -6,10 +6,10 @@
   "license": "AGPL-3.0-only",
   "repository": "https://github.com/mergeability/mergeable.git",
   "scripts": {
-    "dev": "cross-env NODE_ENV=development nodemon --exec 'npm start'",
+    "dev": "cross-env NODE_ENV=development LOG_LEVEL=debug nodemon --exec 'npm start'",
     "start": "probot run ./index.js",
     "test": "cross-env NODE_ENV=test jest && standard",
-    "test:unit": "cross-env LOG_LEVEL=warn NODE_ENV=test jest __tests__/unit/* && standard",
+    "test:unit": "cross-env LOG_LEVEL=warn NODE_ENV=test jest __tests__/unit/*",
     "test:e2e": "cross-env LOG_LEVEL=warn NODE_ENV=test jest __tests__/e2e/* && standard",
     "test:scheduler": "cross-env LOG_LEVEL=warn NODE_ENV=test jest scheduler/test.js && standard",
     "test-watch": "cross-env NODE_ENV=test jest --watch",
